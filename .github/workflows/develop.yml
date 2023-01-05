@@ -9,8 +9,8 @@ jobs:
     env:
       PORT: ${{ secrets.PORT }}
       DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
-      AWS_ACCESS_KEY_ID_DEV: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-      AWS_SECRET_ACCESS_KEY_DEV: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
       REGION: ${{ secrets.REGION }}
 
     runs-on: ubuntu-latest
@@ -32,8 +32,8 @@ jobs:
           touch .env
           echo PORT=${{ secrets.PORT }} >> .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL_DEV }} >> .env
-          echo AWS_ACCESS_KEY_ID_DEV=${{ secrets.AWS_ACCESS_KEY_ID_DEV }} >> .env
-          echo AWS_SECRET_ACCESS_KEY_DEV=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_DEV }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }} >> .env
           echo REGION=${{ secrets.REGION }} >> .env
           echo DOCKERFILE=Dockerfile.dev >> .env
           cat .env
