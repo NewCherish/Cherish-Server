@@ -1,0 +1,87 @@
+name: cherish-server-dev
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    env:
+      PORT: ${{ secrets.PORT }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL_DEV }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+      REGION: ${{ secrets.REGION }}
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo PORT=${{ secrets.PORT }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL_DEV }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_DEV }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }} >> .env
+          echo REGION=${{ secrets.REGION }} >> .env
+          echo DOCKERFILE=Dockerfile.dev >> .env
+          cat .env
+
+      - name: Install dependencies
+        run: yarn
+      - name: Run build
+        run: yarn build
+
+      - name: Build the Docker image
+        run: docker build -t cherish-dev/cherish-dev -f Dockerfile.dev .
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip *
+
+      - name: Add .env to deploy.zip
+        run: zip deploy.zip .env
+
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: '${{ steps.current-time.outputs.time }}'
+          replace-with: '-'
+          flags: 'g'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          application_name: cherish-dev
+          environment_name: Cherishdev-env
+          version_label: 'cherish-dev${{ steps.format-time.outputs.replaced }}'
+          region: ${{ secrets.REGION }}
+          deployment_package: deploy.zip
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Push Server
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEV }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
