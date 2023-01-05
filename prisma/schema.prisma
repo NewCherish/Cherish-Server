@@ -8,25 +8,28 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
 }
 
 model User {
   id Int @id @default(autoincrement())
+  uuid String @unique @default(uuid())
 
   email          String?
   password       String?
   phone          String?
   nickname       String
-  profilImageURL String
+  profileImageURL String
   socialType     String?
+  refreshToken  String
   fcmToken       String
+  title         String
 
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
   UserPlant UserPlant[]
-  Water     Water[]
 }
 
 model Plant {
@@ -43,7 +46,6 @@ model Plant {
   isDeleted Boolean @default(false)
 
   PlantLevel PlantLevel[]
-  UserPlant  UserPlant[]
 }
 
 model PlantLevel {
@@ -58,6 +60,8 @@ model PlantLevel {
   imageURL    String
 
   isDeleted Boolean @default(false)
+
+  UserPlant  UserPlant[]
 }
 
 model UserPlant {
@@ -65,8 +69,8 @@ model UserPlant {
 
   user    User  @relation(fields: [userId], references: [id])
   userId  Int
-  plant   Plant @relation(fields: [plantId], references: [id])
-  plantId Int
+  plantLevel   PlantLevel @relation(fields: [plantLevelId], references: [id])
+  plantLevelId Int
 
   nickname   String
   instagram  String?
@@ -74,20 +78,21 @@ model UserPlant {
   waterCycle Int
   waterCount Int     @default(0)
   isNotified Boolean @default(true)
-  noticeTime String?
+  waterTime String?
   loveGauge  Float   @default(0.0)
-  isWatered  Boolean @default(false)
 
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  Water     Water[]
 }
 
 model Water {
   id Int @id @default(autoincrement())
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  userPlant  UserPlant @relation(fields: [userPlantId], references: [id])
+  userPlantId Int
 
   review String?
 
@@ -109,15 +114,4 @@ model WaterKeyword {
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-}
-
-model PlantStatus {
-  id Int @id @default(autoincrement())
-
-  day     Int
-  status  String
-  message String
-  gauge   Float
-
-  isDeleted Boolean @default(false)
 }
