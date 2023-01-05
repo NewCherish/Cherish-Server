@@ -19,7 +19,7 @@ model User {
   password       String?
   phone          String?
   nickname       String
-  profileImageURL String
+  profileImageURL String?
   socialType     String?
   refreshToken  String
   fcmToken       String
