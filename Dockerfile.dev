@@ -12,6 +12,8 @@ RUN yarn
 
 ADD . .
 
+RUN yarn build
+
 EXPOSE 8081
 
 ENTRYPOINT ["cross-env", "NODE_ENV=development", "node", "dist/main"]
