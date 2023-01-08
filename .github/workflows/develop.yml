@@ -44,7 +44,7 @@ jobs:
         run: yarn build
 
       - name: Build the Docker image
-        run: docker build -t cherish-dev/cherish-dev -f Dockerfile.dev .
+        run: docker build --no-cache -t cherish-dev/cherish-dev -f Dockerfile.dev .
 
       - name: Generate Deployment Package
         run: zip -r deploy.zip *
