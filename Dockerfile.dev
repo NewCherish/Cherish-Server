@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node package*.json ./
 
-RUN yarn install --immutable --immutable-cache --check-cache
+RUN rm -rf node_modules && yarn install --immutable --immutable-cache --check-cache
 
 COPY --chown=node:node . .
 
