@@ -18,13 +18,6 @@ RUN yarn build
 # run node prune
 RUN /usr/local/bin/node-prune
 
-# remove unused dependencies
-RUN rm -rf node_modules/rxjs/src/
-RUN rm -rf node_modules/rxjs/bundles/
-RUN rm -rf node_modules/rxjs/_esm5/
-RUN rm -rf node_modules/rxjs/_esm2015/
-RUN rm -rf node_modules/swagger-ui-dist/*.map
-
 FROM node:16-alpine AS deploy
 
 WORKDIR /usr/src/app
@@ -33,5 +26,9 @@ COPY --from=build /usr/src/app/package*.json /usr/src/app/
 COPY --from=build /usr/src/app/yarn.lock /usr/src/app/
 COPY --from=build /usr/src/app/dist/ /usr/src/app/dist/
 COPY --from=build /usr/src/app/node_modules/ /usr/src/app/node_modules/
+
+ENV NODE_ENV development
+
+EXPOSE 8081
 
 CMD [ "node", "dist/main.js" ]
