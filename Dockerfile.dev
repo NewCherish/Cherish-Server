@@ -6,8 +6,6 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
-RUN npm install -g rimraf
-
 RUN yarn --production
 
 FROM base AS dev
@@ -17,7 +15,7 @@ COPY . .
 RUN ls -a
 
 # install required depedencies for compile related TypeScript/NestJS code
-RUN yarn
+RUN rm -rf node_modules yarn.lock && yarn
 
 # lint and formatting configs are commented out
 # uncomment if you want to add them into the build process
