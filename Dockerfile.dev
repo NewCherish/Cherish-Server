@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
-RUN npm install -g typescript
+RUN npm install -g rimraf
 
 RUN yarn --production
 
