@@ -23,7 +23,7 @@ FROM node:16-alpine
 
 COPY --from=base /usr/src/app/package.json ./
 COPY --from=dev /usr/src/app/dist/ ./dist/
-COPY --from=base /usr/src/app/node_modules/ ./node_modules/
+COPY --from=dev /usr/src/app/node_modules/ ./node_modules/
 
 # port 설정
 EXPOSE 8081
