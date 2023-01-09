@@ -40,6 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn
+        
       - name: Run build
         run: yarn build
 
@@ -47,7 +48,7 @@ jobs:
         run: docker build -t cherish-dev/cherish-dev -f Dockerfile.dev .
 
       - name: Generate Deployment Package
-        run: zip -r deploy.zip *
+        run: zip -r deploy.zip . -x '*.git*' './src/*' './node_modules/*'
 
       - name: Add .env to deploy.zip
         run: zip deploy.zip .env
