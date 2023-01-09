@@ -7,12 +7,14 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
+RUN yarn --production
+
 FROM base AS dev
 
 COPY . .
 RUN ls -a
 
-RUN rm -rf node_modules yarn.lock && yarn
+RUN yarn
 
 RUN yarn build
 
