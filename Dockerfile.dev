@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN yarn
+RUN ls -a && yarn
 
 FROM base AS dev
 
