@@ -7,15 +7,12 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
-# dependency 설치 (dev 제거)
-RUN yarn --production
-
 FROM base AS dev
 
 COPY . .
 RUN ls -a
 
-RUN yarn
+RUN rm -rf node_modeuls yarn.lock && yarn
 
 RUN yarn build
 
