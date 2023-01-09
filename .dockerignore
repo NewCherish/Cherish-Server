@@ -1,3 +1,7 @@
-node_modules/
+.git
+.github
+
+node_modules
+docker-compose.yml
+README.md
 dist
-yarn.lock
