@@ -1,21 +1,19 @@
 FROM node:16-alpine AS base
 
 # node prune 설정
-RUN  apk add curl bash && curl -sfL https://gobinaries.com/tj/node-prune | bash -s -- -b /usr/local/bin
+RUN apk add curl bash && curl -sfL https://gobinaries.com/tj/node-prune | bash -s -- -b /usr/local/bin
 
 WORKDIR /usr/src/app
 
-COPY . .
-RUN ls -a 
+COPY package.json ./
 
-RUN rm -rf node_modules yarn.lock && yarn
+RUN yarn
 
 FROM base AS dev
 
 COPY . .
-RUN ls -a
 
-RUN yarn build
+RUN ls -a && yarn build
 
 # run node prune - 사용하지 않는 모듈 제거
 RUN /usr/local/bin/node-prune

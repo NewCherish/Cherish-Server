@@ -1,5 +1,2 @@
-Dockerfile
-Dockerfile.dev
-.dockerignore
 node_modules
 dist
