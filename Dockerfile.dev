@@ -5,10 +5,10 @@ RUN  apk add curl bash && curl -sfL https://gobinaries.com/tj/node-prune | bash 
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY . .
 RUN ls -a 
 
-RUN rm -rf node_modules && yarn
+RUN rm -rf node_modules yarn.lock && yarn
 
 FROM base AS dev
 
