@@ -24,6 +24,9 @@ model User {
   refreshToken  String
   fcmToken       String
   title         String
+  kakaoId      BigInt?  
+  appleId      String?  
+  appleRefreshToken String?
 
   isDeleted Boolean  @default(false)
   createdAt DateTime @default(now())
