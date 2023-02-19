@@ -13,7 +13,12 @@ import { ResponseSigninData } from './dto/response-signin.dto';
 import { CreateSigninDto } from './dto/create-signin.dto';
 import { ResponseTokenData } from './dto/response-token.dto';
 import { JwtPayload, JwtToken } from 'src/common/interfaces';
-import { forbidden, internalServerError, notFound } from 'src/utils/error';
+import {
+  customError,
+  forbidden,
+  internalServerError,
+  notFound,
+} from 'src/utils/error';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -152,15 +157,9 @@ export class AuthService {
     } catch (error) {
       this.logger.error({ error });
       if (error instanceof AxiosError) {
-        throw new CustomException(
-          error.response.status,
-          error.response.data.msg,
-        );
+        return customError(error.response.status, error.response.data.msg);
       }
-      throw new CustomException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      );
+      return internalServerError();
     }
   }
 }

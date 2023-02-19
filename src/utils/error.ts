@@ -2,6 +2,10 @@ import { HttpStatus } from '@nestjs/common';
 import { CustomException } from '../exceptions';
 import { RESPONSE_MESSAGE } from '../common/objects';
 
+export const customError = (statusCode: number, message: string) => {
+  return new CustomException(statusCode, message);
+};
+
 export const internalServerError = () => {
   return new CustomException(
     HttpStatus.INTERNAL_SERVER_ERROR,
