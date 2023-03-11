@@ -36,11 +36,14 @@ jobs:
           echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }} >> .env
           echo REGION=${{ secrets.REGION }} >> .env
           echo DOCKERFILE=Dockerfile.dev >> .env
+          echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
+          echo ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }} >> .env
+          echo REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }} >> .env
           cat .env
 
       - name: Install dependencies
         run: yarn
-        
+
       - name: Run build
         run: yarn build
 
