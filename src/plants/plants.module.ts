@@ -4,6 +4,6 @@ import { PlantsController } from './plants.controller';
 
 @Module({
   controllers: [PlantsController],
-  providers: [PlantsService]
+  providers: [PlantsService, PrismaService, ConfigService, Validation]
 })
 export class PlantsModule {}
