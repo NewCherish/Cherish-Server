@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/node';
 import { setUpSwagger } from './config/swagger';
 import configuration from './config/configuration';
 import { GlobalExceptionFilter } from './exceptions/global.exception';
+import { ValidationPipe } from '@nestjs/common';
 
 require('dotenv').config();
 
@@ -12,6 +13,9 @@ async function bootstrap() {
   Sentry.init({
     dsn: configuration().sentryDsn,
   });
+  app.useGlobalPipes(
+    new ValidationPipe({ disableErrorMessages: false, transform: true }),
+  );
   app.useGlobalFilters(new GlobalExceptionFilter());
   setUpSwagger(app);
   await app.listen(configuration().port || 3000);
