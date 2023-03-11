@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PlantsService } from './plants.service';
-import { PrismaService } from 'src/prisma.service';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { Validation } from 'src/utils/validation';
-
 import { PlantsController } from './plants.controller';
 
 @Module({
