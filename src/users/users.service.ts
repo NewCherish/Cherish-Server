@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { User } from '.prisma/client';
+import { User } from '@prisma/client';
 import { CustomException } from 'src/exceptions';
 import { PrismaService } from 'src/prisma.service';
 import { internalServerError } from 'src/utils/error';

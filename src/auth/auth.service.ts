@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { firstValueFrom } from 'rxjs';
-import { User } from '.prisma/client';
+import { User } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { AxiosError } from 'axios';
 import { nanoid } from 'nanoid';
