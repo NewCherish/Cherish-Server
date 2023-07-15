@@ -17,4 +17,7 @@ export const RESPONSE_MESSAGE: {
   SIGNIN_USER_SUCCESS: '로그인/회원가입 성공',
   ISSUED_TOKEN_SUCCESS: '토큰 발급 성공',
   REISSUED_TOKEN_SUCCESS: '토큰 재발급 성공',
+
+  // plants
+  READ_PLANT_INFORMATION_SUCCESS: '식물 단계 조회 성공',
 };
