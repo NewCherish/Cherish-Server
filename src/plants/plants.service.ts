@@ -51,6 +51,10 @@ export class PlantsService {
       },
     });
 
+    if (!Array.isArray(reviews)) {
+      return { reviews: [] };
+    }
+
     const result = await Promise.all(
       reviews.map((review) => {
         const date = dayjs(review.wateringDate).format('MM/DD');
@@ -62,6 +66,7 @@ export class PlantsService {
         return data;
       }),
     );
+
     return { reviews: result };
   }
 }
