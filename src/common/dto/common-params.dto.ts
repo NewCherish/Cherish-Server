@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNumber } from 'class-validator';
 
-export class ReadPlantInformationParam {
+export class CommonParamsDto {
   @IsNumber()
   @Type(() => Number)
   readonly id: number;

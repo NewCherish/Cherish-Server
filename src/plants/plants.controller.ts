@@ -11,7 +11,7 @@ import {
 
 import { PlantsService } from './plants.service';
 import { ResponsePlantInformationDto } from './dto/response-plantInformation.dto';
-import { ReadPlantInformationParam } from './dto/read-plantInformation.dto';
+import { CommonParamsDto } from 'src/common/dto/common-params.dto';
 import { ERROR_DESCRIPTION, PLANT_INFORMATION } from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
@@ -43,7 +43,7 @@ export class PlantsController {
     description: PLANT_INFORMATION.ERROR_DESCRIPTION.NOT_FOUND,
   })
   async getPlantInformation(
-    @Param() { id }: ReadPlantInformationParam,
+    @Param() { id }: CommonParamsDto,
   ): Promise<ResponsePlantInformationDto> {
     const data = await this.plantsService.getPlantInformation(id);
 
