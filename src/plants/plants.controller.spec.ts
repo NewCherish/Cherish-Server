@@ -17,6 +17,7 @@ describe('PlantsController', () => {
           provide: PlantsService,
           useValue: {
             getPlantInformation: jest.fn(),
+            getPlantWaterLog: jest.fn(),
           },
         },
       ],
@@ -53,6 +54,35 @@ describe('PlantsController', () => {
       jest.spyOn(service, 'getPlantInformation').mockResolvedValue(mockResult);
 
       const result = await controller.getPlantInformation({ id: mockPlantId });
+
+      expect(result).toEqual(mockSuccessResponse);
+    });
+  });
+
+  describe('get plant water log information by userPlantId', () => {
+    const mockUserPlantId: number = 1;
+    const mockResult = {
+      reviews: [
+        {
+          id: 1,
+          review: '리뷰1',
+          wateringDate: '07/22',
+        },
+      ],
+    };
+    const mockSuccessResponse = {
+      statusCode: 200,
+      success: true,
+      message: '식물 물주기 기록 조회 성공',
+      data: mockResult,
+    };
+
+    it('존재하는 userPlant id가 주어지면, 성공 response 반환', async () => {
+      jest.spyOn(service, 'getPlantWaterLog').mockResolvedValue(mockResult);
+
+      const result = await controller.getPlantWaterLog({
+        id: mockUserPlantId,
+      });
 
       expect(result).toEqual(mockSuccessResponse);
     });

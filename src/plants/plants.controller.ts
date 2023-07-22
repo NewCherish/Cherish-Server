@@ -12,9 +12,14 @@ import {
 import { PlantsService } from './plants.service';
 import { ResponsePlantInformationDto } from './dto/response-plantInformation.dto';
 import { CommonParamsDto } from 'src/common/dto/common-params.dto';
-import { ERROR_DESCRIPTION, PLANT_INFORMATION } from 'src/constants/swagger';
+import {
+  ERROR_DESCRIPTION,
+  PLANT_INFORMATION,
+  PLANT_WATER_LOG,
+} from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
+import { ResponsePlantWaterLogDto } from './dto/response-plantwaterlog.dto';
 
 @Controller('plants')
 @ApiTags('Plants')
@@ -50,6 +55,33 @@ export class PlantsController {
     return wrapSuccess(
       HttpStatus.OK,
       RESPONSE_MESSAGE.READ_PLANT_INFORMATION_SUCCESS,
+      data,
+    );
+  }
+
+  @Get(':id/water')
+  @ApiOperation({
+    summary: PLANT_WATER_LOG.API_OPERATION.SUMMARY,
+    description: PLANT_WATER_LOG.API_OPERATION.DESCRIPTION,
+  })
+  @ApiParam({
+    type: Number,
+    name: PLANT_WATER_LOG.API_PARAM.NAME,
+    required: true,
+    description: PLANT_WATER_LOG.API_PARAM.DESCRIPTION,
+  })
+  @ApiOkResponse({ type: ResponsePlantWaterLogDto })
+  @ApiBadRequestResponse({
+    description: PLANT_WATER_LOG.ERROR_DESCRIPTION.BAD_REQUEST,
+  })
+  async getPlantWaterLog(
+    @Param() { id }: CommonParamsDto,
+  ): Promise<ResponsePlantWaterLogDto> {
+    const data = await this.plantsService.getPlantWaterLog(id);
+
+    return wrapSuccess(
+      HttpStatus.OK,
+      RESPONSE_MESSAGE.READ_PLANT_WATER_LOG_SUCCESS,
       data,
     );
   }

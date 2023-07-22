@@ -14,9 +14,11 @@ describe('PlantsService', () => {
   let service: PlantsService;
   let plantPrisma: MockProxy<Pick<PrismaClient['plant'], 'findUnique'>> =
     mock();
+  let waterPrisma: MockProxy<Pick<PrismaClient['water'], 'findMany'>> = mock();
 
   const mockPrismaClient = {
     plant: plantPrisma,
+    water: waterPrisma,
   };
 
   beforeEach(async () => {
@@ -82,6 +84,39 @@ describe('PlantsService', () => {
         service.getPlantInformation(mockPlantId),
       ).rejects.toThrowError(notFound());
       expect(objectUtils.renameObjectKey).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('get plant water log information by userPlantId', () => {
+    const mockUserPlantId: number = 1;
+    const mockResult = [
+      {
+        id: 1,
+        review: '리뷰1',
+        wateringDate: '07/22',
+      },
+      {
+        id: 3,
+        review: '리뷰2',
+        wateringDate: '07/22',
+      },
+    ];
+
+    it('존재하는 userPlant id 가 주어지면, 식물 단계 정보를 반환한다.', async () => {
+      const mockFindMany = waterPrisma.findMany.mockResolvedValueOnce(
+        mockResult as any,
+      );
+
+      const result = await service.getPlantWaterLog(mockUserPlantId);
+      expect(result).toEqual({ reviews: mockResult });
+      expect(mockFindMany).toHaveBeenCalledWith({
+        where: { userPlantId: mockUserPlantId, isDeleted: false },
+        select: {
+          id: true,
+          review: true,
+          wateringDate: true,
+        },
+      });
     });
   });
 });

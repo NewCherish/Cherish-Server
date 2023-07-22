@@ -26,3 +26,26 @@ export const PLANT_INFORMATION = {
     NOT_FOUND: 'Not Found - 요청한 id에 해당하는 식물 자원이 없는 경우',
   },
 };
+
+export const PLANT_WATER_LOG = {
+  API_OPERATION: {
+    SUMMARY: '식물 물주기 조회 API',
+    DESCRIPTION: '식물별 물주기 기록을 조회합니다.',
+  },
+  API_PARAM: {
+    NAME: 'id',
+    DESCRIPTION: 'user_plant_id',
+  },
+  DTO_DESCRIPTION: {
+    RESPONSE: {
+      REVIEWS: {
+        ID: '물주기 id',
+        CREATEDAT: '물주기 날짜',
+        REVIEW: '물주기 리뷰',
+      },
+    },
+  },
+  ERROR_DESCRIPTION: {
+    BAD_REQUEST: 'Bad Request - 요청 id 가 없거나, number가 아닌 경우 등',
+  },
+};

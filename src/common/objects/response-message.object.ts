@@ -20,4 +20,5 @@ export const RESPONSE_MESSAGE: {
 
   // plants
   READ_PLANT_INFORMATION_SUCCESS: '식물 단계 조회 성공',
+  READ_PLANT_WATER_LOG_SUCCESS: '식물 물주기 기록 조회 성공',
 };

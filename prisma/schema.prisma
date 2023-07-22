@@ -99,7 +99,7 @@ model Water {
   review String?
 
   isDeleted Boolean  @default(false)
-  createdAt DateTime @default(now())
+  wateringDate DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @default(now())
 
   WaterKeyword WaterKeyword[]
