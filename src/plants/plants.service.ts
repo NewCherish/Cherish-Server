@@ -5,6 +5,7 @@ import { notFound } from 'src/utils/error';
 import { renameObjectKey } from 'src/utils/object';
 import { ResponsePlantInformationData } from './dto/response-plantInformation.dto';
 import { ResponsePlantWaterLogData } from './dto/response-plantwaterlog.dto';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class PlantsService {
@@ -46,9 +47,21 @@ export class PlantsService {
       select: {
         id: true,
         review: true,
-        createdAt: true,
+        wateringDate: true,
       },
     });
-    return { reviews };
+
+    const result = await Promise.all(
+      reviews.map((review) => {
+        const date = dayjs(review.wateringDate).format('MM/DD');
+        const data = {
+          id: review.id,
+          review: review.review,
+          wateringDate: date,
+        };
+        return data;
+      }),
+    );
+    return { reviews: result };
   }
 }

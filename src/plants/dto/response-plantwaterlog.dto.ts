@@ -11,7 +11,7 @@ export class PlantWaterReviewData {
   @ApiProperty({
     description: DTO_RESPONSE_DESCRIPTION.REVIEWS.CREATEDAT,
   })
-  createdAt: Date;
+  wateringDate: string;
 
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.REVIEWS.REVIEW })
   review: string;
