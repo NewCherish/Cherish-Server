@@ -9,6 +9,8 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { WebhookInterceptor } from './interceptors/webhook.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PlantsModule } from './plants/plants.module';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
@@ -20,10 +22,12 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     HttpModule,
     UsersModule,
+    PlantsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
+    PrismaService,
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,

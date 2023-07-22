@@ -8,8 +8,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { RESPONSE_MESSAGE } from 'src/common/objects';
-import { wrapSuccess } from 'src/utils/success';
+
 import { AuthService } from './auth.service';
 import {
   ResponseSigninData,
@@ -17,10 +16,15 @@ import {
 } from './dto/response-signin.dto';
 import { CreateSigninDto } from './dto/create-signin.dto';
 import { Validation } from 'src/utils/validation';
+import { wrapSuccess } from 'src/utils/success';
+import { RESPONSE_MESSAGE } from 'src/common/objects';
+import { ERROR_DESCRIPTION, SIGNIN_DESCRIPTION } from 'src/constants/swagger';
 
 @Controller('auth')
 @ApiTags('Auth')
-@ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+@ApiInternalServerErrorResponse({
+  description: ERROR_DESCRIPTION.INTERNAL_SERVER_ERROR,
+})
 export class AuthController {
   constructor(
     private authService: AuthService,
@@ -29,21 +33,18 @@ export class AuthController {
 
   @Post('signin/social')
   @ApiOperation({
-    summary: '소셜 로그인 API',
-    description:
-      '카카오/애플 로그인을 진행하고, access/refresh token을 발급합니다.',
+    summary: SIGNIN_DESCRIPTION.API_OPERATION.SUMMARY,
+    description: SIGNIN_DESCRIPTION.API_OPERATION.DESCRIPTION,
   })
   @ApiCreatedResponse({ type: ResponseSigninDto })
+  @ApiUnauthorizedResponse({
+    description: SIGNIN_DESCRIPTION.ERROR_DESCRIPTION.UNAUTHORIZED,
+  })
   @ApiBadRequestResponse({
-    description:
-      'Bad Request - 소셜 로그인 토큰을 보내지 않거나 kakao, apple 둘 다 보낸 경우',
+    description: SIGNIN_DESCRIPTION.ERROR_DESCRIPTION.BAD_REQUEST,
   })
   @ApiNotFoundResponse({
-    description:
-      'Not Found - 소셜 로그인 토큰에 해당하는 유저 정보가 없는 경우',
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized - 소셜 로그인 토큰이 없거나 유효하지 않은 경우',
+    description: SIGNIN_DESCRIPTION.ERROR_DESCRIPTION.NOT_FOUND,
   })
   async signin(
     @Body() createSigninDto: CreateSigninDto,
@@ -56,9 +57,7 @@ export class AuthController {
 
     switch (socialType) {
       case 'kakao':
-        data = <ResponseSigninData>(
-          await this.authService.createKakaoUser(createSigninDto)
-        );
+        data = await this.authService.createKakaoUser(createSigninDto);
         break;
       case 'apple':
     }
