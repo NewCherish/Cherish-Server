@@ -118,15 +118,5 @@ describe('PlantsService', () => {
         },
       });
     });
-
-    // it('존재하지 않는 식물 id 가 주어지면, Not Found 에러를 반환한다.', async () => {
-    //   const mockFindUnique = plantPrisma.findUnique.mockResolvedValueOnce(null);
-    //   jest.spyOn(objectUtils, 'renameObjectKey').mockImplementation(() => {});
-
-    //   await expect(
-    //     service.getPlantInformation(mockPlantId),
-    //   ).rejects.toThrowError(notFound());
-    //   expect(objectUtils.renameObjectKey).not.toHaveBeenCalled();
-    // });
   });
 });

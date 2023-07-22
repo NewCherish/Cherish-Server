@@ -8,6 +8,7 @@ import { PlantsModule } from 'src/plants/plants.module';
 import {
   mockBadRequestResponse,
   mockNotFoundResponse,
+  mockPlantWaterLogsResponse,
   mockPlantsInformationResponse,
 } from './mock/plants.mock';
 
@@ -50,6 +51,22 @@ describe('Plants (e2e)', () => {
         .get(`/plants/100/information`)
         .expect(404)
         .expect(mockNotFoundResponse);
+    });
+  });
+
+  describe('[GET] /plants/:id/water', () => {
+    it('200 OK', () => {
+      return request(app.getHttpServer())
+        .get(`/plants/1/water`)
+        .expect(200)
+        .expect(mockPlantWaterLogsResponse);
+    });
+
+    it('400 Bad Request', () => {
+      return request(app.getHttpServer())
+        .get(`/plants/hi/water`)
+        .expect(400)
+        .expect(mockBadRequestResponse);
     });
   });
 });
