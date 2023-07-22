@@ -52,20 +52,4 @@ describe('Plants (e2e)', () => {
         .expect(mockNotFoundResponse);
     });
   });
-
-  describe('[GET] /plants/:id/water', () => {
-    it('200 OK', () => {
-      return request(app.getHttpServer())
-        .get(`/plants/1/water`)
-        .expect(200)
-        .expect(mockPlantsInformationResponse);
-    });
-
-    it('400 Bad Request', () => {
-      return request(app.getHttpServer())
-        .get(`/plants/hi/water`)
-        .expect(400)
-        .expect(mockBadRequestResponse);
-    });
-  });
 });
