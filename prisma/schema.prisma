@@ -49,6 +49,7 @@ model Plant {
   isDeleted Boolean @default(false)
 
   PlantLevel PlantLevel[]
+  UserPlant  UserPlant[]
 }
 
 model PlantLevel {
@@ -63,8 +64,6 @@ model PlantLevel {
   imageURL    String
 
   isDeleted Boolean @default(false)
-
-  UserPlant  UserPlant[]
 }
 
 model UserPlant {
@@ -72,8 +71,8 @@ model UserPlant {
 
   user    User  @relation(fields: [userId], references: [id])
   userId  Int
-  plantLevel   PlantLevel @relation(fields: [plantLevelId], references: [id])
-  plantLevelId Int
+  plant   Plant @relation(fields: [plantId], references: [id])
+  plantId Int
 
   nickname   String
   instagram  String?

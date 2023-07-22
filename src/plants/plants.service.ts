@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-
 import { PrismaService } from 'src/prisma.service';
 import { notFound } from 'src/utils/error';
 import { renameObjectKey } from 'src/utils/object';
 import { ResponsePlantInformationData } from './dto/response-plantInformation.dto';
-
 @Injectable()
 export class PlantsService {
   constructor(private prisma: PrismaService) {}
