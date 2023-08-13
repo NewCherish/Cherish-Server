@@ -17,7 +17,7 @@ export const mockUserPlantResponse = {
   ],
 };
 
-export const mockUserPlantDetailResponse = {
+export const mockUserPlantDetailData = {
   id: 1,
   nickname: 'test',
   instagram: null,
@@ -30,6 +30,13 @@ export const mockUserPlantDetailResponse = {
   levelName: '새싹',
   statusMessage: '갈증나요',
   statusGague: 0.5,
+};
+
+export const mockUserPlantDetailSuccessResponse = {
+  statusCode: 200,
+  success: true,
+  message: '식물 상세 조회 성공',
+  data: mockUserPlantDetailData,
 };
 
 export const mockPlantsInformationResponse = {

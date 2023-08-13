@@ -10,7 +10,7 @@ import * as objectUtils from 'src/utils/object';
 
 import {
   mockPlant,
-  mockUserPlantDetailResponse,
+  mockUserPlantDetailData,
   mockUserPlantResponse,
 } from '../../test/mock/plants.mock';
 
@@ -57,7 +57,7 @@ describe('PlantsService', () => {
 
       const result = await service.getUserPlantDetail(mockUserPlantId);
 
-      expect(result).toEqual(mockUserPlantDetailResponse);
+      expect(result).toEqual(mockUserPlantDetailData);
     });
 
     it('존재하지 않는 userPlantId 가 주어지면 Not Found 에러를 반환한다.', async () => {
