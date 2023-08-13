@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ResponseSuccessDto } from 'src/common/dto/response-success.dto';
-import { PLANT_INFORMATION } from 'src/constants/swagger';
+import { READ_PLANT_INFORMATION } from 'src/constants/swagger';
 
-const DTO_RESPONSE_DESCRIPTION = PLANT_INFORMATION.DTO_DESCRIPTION.RESPONSE;
+const DTO_RESPONSE_DESCRIPTION =
+  READ_PLANT_INFORMATION.DTO_DESCRIPTION.RESPONSE;
 
 export class PlantLevelData {
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.PLANT_LEVEL.LEVEL_NAME })
@@ -30,7 +31,10 @@ export class ResponsePlantInformationData {
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.EXPLANATION })
   explanation: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    isArray: true,
+    type: PlantLevelData,
+  })
   plantLevel: PlantLevelData[];
 
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.CIRCLE_IMAGE_URL })
