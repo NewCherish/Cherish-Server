@@ -45,6 +45,15 @@ describe('PlantsService', () => {
   });
 
   describe('get plant detail by userPlantId', () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2023-08-13 18:00'));
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
     const mockUserPlantId: number = 1;
 
     it('존재하는 userPlantId 가 주어지면 식물 상세 정보를 반환한다.', async () => {
