@@ -1,26 +1,26 @@
 export const PLANT_STATUS: Record<
   string,
-  { statusMessage: string; statusGague: number }
+  { statusMessage: string; statusGauge: number }
 > = {
   healthy: {
     statusMessage: '힘이 솟아요',
-    statusGague: 1,
+    statusGauge: 1,
   },
   waterDay: {
     statusMessage: '물 주는 날이에요!',
-    statusGague: 1,
+    statusGauge: 1,
   },
   happy: {
     statusMessage: '기분이 좋아요',
-    statusGague: 0.75,
+    statusGauge: 0.75,
   },
   thirsty: {
     statusMessage: '갈증나요',
-    statusGague: 0.5,
+    statusGauge: 0.5,
   },
   veryThirsty: {
     statusMessage: '물 주세요',
-    statusGague: 0.25,
+    statusGauge: 0.25,
   },
 };
 

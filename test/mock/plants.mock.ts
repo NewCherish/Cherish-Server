@@ -29,7 +29,7 @@ export const mockUserPlantDetailData = {
     'https://cherish-static-dev.s3.ap-northeast-2.amazonaws.com/circleImages/mindlere-circle.png',
   levelName: '새싹',
   statusMessage: '갈증나요',
-  statusGague: 0.5,
+  statusGauge: 0.5,
 };
 
 export const mockUserPlantDetailSuccessResponse = {
