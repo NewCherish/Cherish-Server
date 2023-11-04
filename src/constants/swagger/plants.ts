@@ -30,6 +30,33 @@ export const READ_PLANT_DETAIL = {
   },
 };
 
+export const UPDATE_PLANT_DETAIL = {
+  API_OPERATION: {
+    summary: '식물 카드 수정 API',
+    description: '식물 카드를 수정합니다.',
+  },
+  API_PARAM: {
+    type: Number,
+    name: 'id',
+    required: true,
+    description: 'userPlant id',
+  },
+  DTO_DESCRIPTION: {
+    BODY: {
+      PHONE: '전화번호',
+      NICKNAME: '식물 닉네임',
+      WATER_CYCLE: '주기',
+      WATER_TIME: '물 주기 시간 (00:00 ~ 24:00)',
+      INSTAGRAM:
+        '인스타그램 id (보내지 않을 경우 기존 저장된 값을 null로 변경)',
+    },
+  },
+  ERROR_DESCRIPTION: {
+    BAD_REQUEST: 'Bad Request - request body 를 잘못 보낸 경우',
+    NOT_FOUND: 'Not Found - 요청한 id에 해당하는 식물 자원이 없는 경우',
+  },
+};
+
 export const READ_PLANT_INFORMATION = {
   API_OPERATION: {
     summary: '식물 정보 조회 API',
