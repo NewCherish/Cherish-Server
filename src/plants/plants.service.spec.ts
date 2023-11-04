@@ -16,11 +16,12 @@ import {
 
 describe('PlantsService', () => {
   let service: PlantsService;
-  let plantPrisma: MockProxy<Pick<PrismaClient['plant'], 'findUnique'>> =
+  const plantPrisma: MockProxy<Pick<PrismaClient['plant'], 'findUnique'>> =
     mock();
-  let waterPrisma: MockProxy<Pick<PrismaClient['water'], 'findMany'>> = mock();
-  let userPlantPrisma: MockProxy<
-    Pick<PrismaClient['userPlant'], 'findUnique'>
+  const waterPrisma: MockProxy<Pick<PrismaClient['water'], 'findMany'>> =
+    mock();
+  const userPlantPrisma: MockProxy<
+    Pick<PrismaClient['userPlant'], 'findUnique' | 'update'>
   > = mock();
 
   const mockPrismaClient = {
@@ -54,7 +55,7 @@ describe('PlantsService', () => {
       jest.useRealTimers();
     });
 
-    const mockUserPlantId: number = 1;
+    const mockUserPlantId = 1;
 
     it('존재하는 userPlantId 가 주어지면 식물 상세 정보를 반환한다.', async () => {
       const mockFindUnique = userPlantPrisma.findUnique.mockResolvedValueOnce(
@@ -81,8 +82,34 @@ describe('PlantsService', () => {
     });
   });
 
+  describe('update plant detail by userPlantId', () => {
+    const mockUserPlantId = 1;
+    const mockUpdatePlantDetailDto = {
+      phone: '111',
+      nickname: 'test',
+      waterCycle: 22,
+      waterTime: '22:00',
+    };
+
+    it('instagram 필드가 주어지지 않을 경우 null 로 업데이트', async () => {
+      const mockUpdate = userPlantPrisma.update.mockResolvedValueOnce(
+        mockUpdatePlantDetailDto as any,
+      );
+
+      await service.updateUserPlantDetail(
+        mockUserPlantId,
+        mockUpdatePlantDetailDto,
+      );
+
+      expect(mockUpdate).toHaveBeenCalledWith({
+        where: { id: mockUserPlantId, isDeleted: false },
+        data: { ...mockUpdatePlantDetailDto, instagram: null },
+      });
+    });
+  });
+
   describe('get plant information by plantId', () => {
-    const mockPlantId: number = 1;
+    const mockPlantId = 1;
     const mockResult = {
       ...mockPlant,
       plantLevel: [
@@ -133,7 +160,7 @@ describe('PlantsService', () => {
   });
 
   describe('get plant water log information by userPlantId', () => {
-    const mockUserPlantId: number = 1;
+    const mockUserPlantId = 1;
     const mockResult = [
       {
         id: 1,

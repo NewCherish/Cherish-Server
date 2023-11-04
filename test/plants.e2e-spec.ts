@@ -16,6 +16,8 @@ import {
   mockNotFoundResponse,
   mockPlantWaterLogsResponse,
   mockPlantsInformationResponse,
+  mockUpdatePlantDetailDto,
+  mockUpdatePlantDetailSuccessResponse,
   mockUserPlantDetailSuccessResponse,
 } from './mock/plants.mock';
 
@@ -67,6 +69,31 @@ describe('Plants (e2e)', () => {
         .get(`/plants/100`)
         .expect(404)
         .expect(mockNotFoundResponse);
+    });
+  });
+
+  describe('[PUT] /plants/:id', () => {
+    it('200 OK', () => {
+      return request(app.getHttpServer())
+        .put(`/plants/1`)
+        .send(mockUpdatePlantDetailDto)
+        .expect(200)
+        .expect(mockUpdatePlantDetailSuccessResponse);
+    });
+
+    it('400 Bad Request', () => {
+      return request(app.getHttpServer())
+        .put(`/plants/1`)
+        .send({})
+        .expect(400)
+        .expect(mockBadRequestResponse);
+    });
+
+    it('404 Not Found', () => {
+      return request(app.getHttpServer())
+        .put(`/plants/2`)
+        .send(mockUpdatePlantDetailDto)
+        .expect(404);
     });
   });
 
