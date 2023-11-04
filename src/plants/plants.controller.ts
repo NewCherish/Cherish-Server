@@ -17,11 +17,13 @@ import {
   READ_PLANT_DETAIL,
   READ_PLANT_INFORMATION,
   READ_PLANT_WATER_LOG,
+  READ_PLANTS
 } from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
 import { ResponsePlantWaterLogDto } from './dto/response-plant-water-log.dto';
 import { ResponsePlantDetailDto } from './dto/response-plant-detail.dto';
+import { ResponsePlantsDto } from './dto/response-plants.dto';
 @Controller('plants')
 @ApiTags('Plants')
 @ApiInternalServerErrorResponse({
@@ -90,6 +92,19 @@ export class PlantsController {
       HttpStatus.OK,
       RESPONSE_MESSAGE.READ_PLANT_WATER_LOG_SUCCESS,
       data,
+    );
+  }
+
+  @Get()
+  @ApiOperation(READ_PLANTS.API_OPERATION)
+  @ApiOkResponse( {type: ResponsePlantsDto})
+  async getPlants(): Promise<ResponsePlantsDto> {
+    const data = await this.plantsService.getPlants(1);
+
+    return wrapSuccess(
+      HttpStatus.OK, 
+      RESPONSE_MESSAGE.READ_PLANTS_SUCCESS, 
+      data
     );
   }
 }

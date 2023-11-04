@@ -6,7 +6,7 @@ const DTO_RESPONSE_DESCRIPTION = READ_PLANTS.DTO_DESCRIPTION.RESPONSE;
 
 export class ResponsePlantsData {
   @ApiProperty({description: '전체 식물 리스트'})
-  plants: [plantData];
+  plants: plantData[];
 
   @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANT_COUNT})
   plantCount: number;
@@ -41,8 +41,8 @@ export class plantData {
   @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANTS.LOVE_GAUGE})
   loveGauge: number;
 
-  @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANTS.IS_WATERED})
-  isWatered: boolean;
+  // @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANTS.IS_WATERED})
+  // isWatered: boolean;
 }
 
 export class ResponsePlantsDto extends ResponseSuccessDto {
