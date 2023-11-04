@@ -10,7 +10,7 @@ import * as utilDay from 'src/utils/day';
 import { ResponsePlantDetailData } from './dto/response-plant-detail.dto';
 import { ResponsePlantInformationData } from './dto/response-plant-information.dto';
 import { ResponsePlantWaterLogData } from './dto/response-plant-water-log.dto';
-import { ResponsePlantsData } from './dto/response-plants.dto';
+import { ResponseUserPlantsData } from './dto/response-plants.dto';
 
 @Injectable()
 export class PlantsService {
@@ -164,7 +164,7 @@ export class PlantsService {
     return { reviews: result };
   }
 
-  async getPlants(userId: number): Promise<ResponsePlantsData> {
+  async getUserPlants(userId: number): Promise<ResponseUserPlantsData> {
     const userPlants = await this.prisma.userPlant.findMany({
       where: {userId, isDeleted: false},
       select: {
@@ -194,8 +194,8 @@ export class PlantsService {
 
     if (!userPlants) {
       const data = {
-        plants: [],
-        plantCount: 0
+        userPlants: [],
+        userPlantsCount: 0
       }
       return data;
     }
@@ -237,8 +237,8 @@ export class PlantsService {
     );
 
     const data = {
-      plants: processedUserPlants,
-      plantCount: processedUserPlants.length,
+      userPlants: processedUserPlants,
+      userPlantsCount: processedUserPlants.length,
     }
 
     return data;

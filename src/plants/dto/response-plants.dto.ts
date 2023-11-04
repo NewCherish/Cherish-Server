@@ -4,15 +4,15 @@ import { READ_PLANTS } from 'src/constants/swagger';
 
 const DTO_RESPONSE_DESCRIPTION = READ_PLANTS.DTO_DESCRIPTION.RESPONSE;
 
-export class ResponsePlantsData {
+export class ResponseUserPlantsData {
   @ApiProperty({description: '전체 식물 리스트'})
-  plants: plantData[];
+  userPlants: userPlantData[];
 
   @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANT_COUNT})
-  plantCount: number;
+  userPlantsCount: number;
 }
 
-export class plantData {
+export class userPlantData {
   @ApiProperty({description: DTO_RESPONSE_DESCRIPTION.PLANTS.ID})
   id: number;
 
@@ -45,7 +45,7 @@ export class plantData {
   // isWatered: boolean;
 }
 
-export class ResponsePlantsDto extends ResponseSuccessDto {
+export class ResponseUserPlantsDto extends ResponseSuccessDto {
   @ApiProperty()
-  data: ResponsePlantsData
+  data: ResponseUserPlantsData
 }

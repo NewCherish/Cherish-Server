@@ -23,7 +23,7 @@ import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
 import { ResponsePlantWaterLogDto } from './dto/response-plant-water-log.dto';
 import { ResponsePlantDetailDto } from './dto/response-plant-detail.dto';
-import { ResponsePlantsDto } from './dto/response-plants.dto';
+import { ResponseUserPlantsDto } from './dto/response-plants.dto';
 @Controller('plants')
 @ApiTags('Plants')
 @ApiInternalServerErrorResponse({
@@ -97,9 +97,9 @@ export class PlantsController {
 
   @Get()
   @ApiOperation(READ_PLANTS.API_OPERATION)
-  @ApiOkResponse( {type: ResponsePlantsDto})
-  async getPlants(): Promise<ResponsePlantsDto> {
-    const data = await this.plantsService.getPlants(1);
+  @ApiOkResponse( {type: ResponseUserPlantsDto})
+  async getUserPlants(): Promise<ResponseUserPlantsDto> {
+    const data = await this.plantsService.getUserPlants(1);
 
     return wrapSuccess(
       HttpStatus.OK, 
