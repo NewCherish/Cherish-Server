@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PlantLevel } from '@prisma/client';
+import { PlantLevel, UserPlant } from '@prisma/client';
 import * as dayjs from 'dayjs';
 
 import { PrismaService } from 'src/prisma.service';
@@ -10,6 +10,7 @@ import * as utilDay from 'src/utils/day';
 import { ResponsePlantDetailData } from './dto/response-plant-detail.dto';
 import { ResponsePlantInformationData } from './dto/response-plant-information.dto';
 import { ResponsePlantWaterLogData } from './dto/response-plant-water-log.dto';
+import { UpdatePlantDetailDto } from './dto/update-plant-detail.dto';
 
 @Injectable()
 export class PlantsService {
@@ -90,6 +91,20 @@ export class PlantsService {
       statusMessage,
       statusGague,
     };
+  }
+
+  async updateUserPlantDetail(
+    id: number,
+    updatePlantDetailDto: UpdatePlantDetailDto,
+  ): Promise<void> {
+    if (!updatePlantDetailDto.instagram) {
+      updatePlantDetailDto.instagram = null;
+    }
+
+    const updatedUserPlant = await this.prisma.userPlant.update({
+      where: { id, isDeleted: false },
+      data: updatePlantDetailDto,
+    });
   }
 
   async getPlantLevelNameByLoveGague(
