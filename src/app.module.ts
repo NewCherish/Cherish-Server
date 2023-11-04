@@ -17,7 +17,7 @@ import { PrismaService } from 'src/prisma.service';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
-      envFilePath: '.env',
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
     }),
     AuthModule,
     HttpModule,

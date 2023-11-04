@@ -18,7 +18,14 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "yarn docker:up && sleep 6.5 && yarn migrate:test && yarn seed:test && dotenv -e .env.test -- jest --config ./test/jest-e2e.json && yarn docker:down",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
+    "seed:test": "dotenv -e .env.test -- npx prisma db seed",
+    "docker:up": "docker-compose -f docker-compose.test.yml up -d",
+    "docker:down": "docker-compose -f docker-compose.test.yml down -v"
+  },
+  "prisma": {
+    "seed": "cross-env NODE_ENV=test ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^2.0.0",
@@ -39,6 +46,7 @@
     "class-validator": "^0.14.0",
     "dayjs": "^1.11.9",
     "dotenv": "^16.0.3",
+    "dotenv-cli": "^7.2.1",
     "jest-mock-extended": "^3.0.4",
     "nanoid": "3.3.4",
     "passport": "^0.6.0",
@@ -58,6 +66,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

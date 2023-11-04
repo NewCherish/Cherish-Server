@@ -10,17 +10,18 @@ import {
 } from '@nestjs/swagger';
 
 import { PlantsService } from './plants.service';
-import { ResponsePlantInformationDto } from './dto/response-plantInformation.dto';
+import { ResponsePlantInformationDto } from './dto/response-plant-information.dto';
 import { CommonParamsDto } from 'src/common/dto/common-params.dto';
 import {
   ERROR_DESCRIPTION,
-  PLANT_INFORMATION,
-  PLANT_WATER_LOG,
+  READ_PLANT_DETAIL,
+  READ_PLANT_INFORMATION,
+  READ_PLANT_WATER_LOG,
 } from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
-import { ResponsePlantWaterLogDto } from './dto/response-plantwaterlog.dto';
-
+import { ResponsePlantWaterLogDto } from './dto/response-plant-water-log.dto';
+import { ResponsePlantDetailDto } from './dto/response-plant-detail.dto';
 @Controller('plants')
 @ApiTags('Plants')
 @ApiInternalServerErrorResponse({
@@ -29,23 +30,37 @@ import { ResponsePlantWaterLogDto } from './dto/response-plantwaterlog.dto';
 export class PlantsController {
   constructor(private readonly plantsService: PlantsService) {}
 
-  @Get(':id/information')
-  @ApiOperation({
-    summary: PLANT_INFORMATION.API_OPERATION.SUMMARY,
-    description: PLANT_INFORMATION.API_OPERATION.DESCRIPTION,
-  })
-  @ApiParam({
-    type: Number,
-    name: PLANT_INFORMATION.API_PARAM.NAME,
-    required: true,
-    description: PLANT_INFORMATION.API_PARAM.DESCRIPTION,
-  })
-  @ApiOkResponse({ type: ResponsePlantInformationDto })
+  @Get(':id')
+  @ApiOperation(READ_PLANT_DETAIL.API_OPERATION)
+  @ApiParam(READ_PLANT_DETAIL.API_PARAM)
+  @ApiOkResponse({ type: ResponsePlantDetailDto })
   @ApiBadRequestResponse({
-    description: PLANT_INFORMATION.ERROR_DESCRIPTION.BAD_REQUEST,
+    description: READ_PLANT_DETAIL.ERROR_DESCRIPTION.BAD_REQUEST,
   })
   @ApiNotFoundResponse({
-    description: PLANT_INFORMATION.ERROR_DESCRIPTION.NOT_FOUND,
+    description: READ_PLANT_DETAIL.ERROR_DESCRIPTION.NOT_FOUND,
+  })
+  async getPlantDetail(
+    @Param() { id }: CommonParamsDto,
+  ): Promise<ResponsePlantDetailDto> {
+    const data = await this.plantsService.getUserPlantDetail(id);
+
+    return wrapSuccess(
+      HttpStatus.OK,
+      RESPONSE_MESSAGE.READ_PLANT_DETAIL_SUCCESS,
+      data,
+    );
+  }
+
+  @Get(':id/information')
+  @ApiOperation(READ_PLANT_INFORMATION.API_OPERATION)
+  @ApiParam(READ_PLANT_INFORMATION.API_PARAM)
+  @ApiOkResponse({ type: ResponsePlantInformationDto })
+  @ApiBadRequestResponse({
+    description: READ_PLANT_INFORMATION.ERROR_DESCRIPTION.BAD_REQUEST,
+  })
+  @ApiNotFoundResponse({
+    description: READ_PLANT_INFORMATION.ERROR_DESCRIPTION.NOT_FOUND,
   })
   async getPlantInformation(
     @Param() { id }: CommonParamsDto,
@@ -60,19 +75,11 @@ export class PlantsController {
   }
 
   @Get(':id/water')
-  @ApiOperation({
-    summary: PLANT_WATER_LOG.API_OPERATION.SUMMARY,
-    description: PLANT_WATER_LOG.API_OPERATION.DESCRIPTION,
-  })
-  @ApiParam({
-    type: Number,
-    name: PLANT_WATER_LOG.API_PARAM.NAME,
-    required: true,
-    description: PLANT_WATER_LOG.API_PARAM.DESCRIPTION,
-  })
+  @ApiOperation(READ_PLANT_WATER_LOG.API_OPERATION)
+  @ApiParam(READ_PLANT_WATER_LOG.API_PARAM)
   @ApiOkResponse({ type: ResponsePlantWaterLogDto })
   @ApiBadRequestResponse({
-    description: PLANT_WATER_LOG.ERROR_DESCRIPTION.BAD_REQUEST,
+    description: READ_PLANT_WATER_LOG.ERROR_DESCRIPTION.BAD_REQUEST,
   })
   async getPlantWaterLog(
     @Param() { id }: CommonParamsDto,
