@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { CreateSigninDto } from 'src/auth/dto/create-signin.dto';
 import { CustomException } from 'src/exceptions';
 import { badRequest } from './error';
+import { CreatePlantWaterLogDto } from 'src/plants/dto/plantwaterlog.dto';
 
 export class Validation {
   private readonly logger = new Logger(Validation.name);

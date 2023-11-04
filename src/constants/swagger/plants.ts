@@ -27,7 +27,7 @@ export const PLANT_INFORMATION = {
   },
 };
 
-export const PLANT_WATER_LOG = {
+export const GET_PLANT_WATER_LOG = {
   API_OPERATION: {
     SUMMARY: '식물 물주기 조회 API',
     DESCRIPTION: '식물별 물주기 기록을 조회합니다.',
@@ -47,5 +47,25 @@ export const PLANT_WATER_LOG = {
   },
   ERROR_DESCRIPTION: {
     BAD_REQUEST: 'Bad Request - 요청 id 가 없거나, number가 아닌 경우 등',
+  },
+};
+
+export const CREATE_PLANT_WATER = {
+  API_OPERATION: {
+    SUMMARY: '식물 물주기 생성 API',
+    DESCRIPTION: '식물별 물주기를 생성합니다.',
+  },
+  API_PARAM: {
+    NAME: 'id',
+    DESCRIPTION: 'user_plant_id',
+  },
+  DTO_DESCRIPTION: {
+    RESPONSE: {
+      ID: 'water id',
+      else: '더 작성해야 함',
+    },
+  },
+  ERROR_DESCRIPTION: {
+    BAD_REQUEST: 'Bad Request - 해당 날짜에 이미 물 준 경우',
   },
 };

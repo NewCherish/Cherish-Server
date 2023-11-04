@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma.service';
-import { notFound } from 'src/utils/error';
+import { notFound, badRequest } from 'src/utils/error';
 import { renameObjectKey } from 'src/utils/object';
 import { ResponsePlantInformationData } from './dto/response-plantInformation.dto';
-import { ResponsePlantWaterLogData } from './dto/response-plantwaterlog.dto';
+import {
+  ResponseGetPlantWaterLogData,
+  ResponseCreatePlantWaterDto,
+} from './dto/plantwaterlog.dto';
 import * as dayjs from 'dayjs';
+import { getCurrentSeoulTime } from 'src/utils/date';
 
 @Injectable()
 export class PlantsService {
@@ -41,7 +45,7 @@ export class PlantsService {
     );
   }
 
-  async getPlantWaterLog(id: number): Promise<ResponsePlantWaterLogData> {
+  async getPlantWaterLog(id: number): Promise<ResponseGetPlantWaterLogData> {
     const reviews = await this.prisma.water.findMany({
       where: { userPlantId: id, isDeleted: false },
       select: {
@@ -64,5 +68,57 @@ export class PlantsService {
     );
 
     return { reviews: result };
+  }
+
+  async createPlantWater(id: number): Promise<ResponseCreatePlantWaterDto> {
+    const today: Date = getCurrentSeoulTime();
+
+    const startOfDay = new Date(today);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(startOfDay);
+    endOfDay.setDate(endOfDay.getDate() + 1);
+
+    const checkTodayWatering = await this.prisma.water.findFirst({
+      where: {
+        userPlantId: id,
+        wateringDate: {
+          gte: startOfDay,
+          lt: endOfDay,
+        },
+      },
+    });
+
+    if (checkTodayWatering) {
+      throw badRequest();
+    }
+    const waterData = {
+      userPlantId: id,
+      wateringDate: today,
+    };
+
+    const water = await this.prisma.water.create({
+      data: waterData,
+    });
+
+    const updateUserPlant = await this.prisma.userPlant.update({
+      where: { id },
+      data: {
+        loveGauge: {
+          increment: 0.5,
+        },
+        waterCount: {
+          increment: 1,
+        },
+      },
+    });
+
+    const result = {
+      id: water.id,
+      userPlantId: water.userPlantId,
+      wateringDate: water.wateringDate,
+    };
+
+    return result;
   }
 }
