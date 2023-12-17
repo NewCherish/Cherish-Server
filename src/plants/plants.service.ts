@@ -108,7 +108,7 @@ export class PlantsService {
     });
   }
 
-  async getPlantLevelNameByLoveGague(
+  async getPlantLevelNameByLoveGauge(
     plantId: number,
     loveGauge: number,
   ): Promise<Pick<PlantLevel, 'levelName'>> {

@@ -55,7 +55,7 @@ describe('PlantsService', () => {
       jest.useRealTimers();
     });
 
-    const mockUserPlantId = 1;
+    const mockUserPlantId: number = 1;
 
     it('존재하는 userPlantId 가 주어지면 식물 상세 정보를 반환한다.', async () => {
       const mockFindUnique = userPlantPrisma.findUnique.mockResolvedValueOnce(
