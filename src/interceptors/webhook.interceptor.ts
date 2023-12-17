@@ -16,22 +16,23 @@ export class WebhookInterceptor implements NestInterceptor {
       catchError((error) => {
         Sentry.captureException(error);
         const webhook = new IncomingWebhook(configuration().sentryWebhookUrl);
-        webhook.send({
-          attachments: [
-            {
-              color: 'danger',
-              text: '🚨 Cherish Dev - 에러 발생 🚨',
-              fields: [
-                {
-                  title: `Request Message: ${error.message}`,
-                  value: error.stack,
-                  short: false,
-                },
-              ],
-              ts: Math.floor(new Date().getTime() / 1000).toString(),
-            },
-          ],
-        });
+        process.env.NODE_ENV !== 'test' &&
+          webhook.send({
+            attachments: [
+              {
+                color: 'danger',
+                text: '🚨 Cherish Dev - 에러 발생 🚨',
+                fields: [
+                  {
+                    title: `Request Message: ${error.message}`,
+                    value: error.stack,
+                    short: false,
+                  },
+                ],
+                ts: Math.floor(new Date().getTime() / 1000).toString(),
+              },
+            ],
+          });
         return throwError(() => error);
       }),
     );

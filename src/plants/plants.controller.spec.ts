@@ -3,7 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PlantsController } from './plants.controller';
 import { PlantsService } from './plants.service';
 
-import { mockPlant } from '../../test/mock/plants.mock';
+import {
+  mockPlant,
+  mockUserPlantDetailData,
+  mockUserPlantDetailSuccessResponse,
+} from '../../test/mock/plants.mock';
 
 describe('PlantsController', () => {
   let controller: PlantsController;
@@ -16,6 +20,7 @@ describe('PlantsController', () => {
         {
           provide: PlantsService,
           useValue: {
+            getUserPlantDetail: jest.fn(),
             getPlantInformation: jest.fn(),
             getPlantWaterLog: jest.fn(),
           },
@@ -29,6 +34,20 @@ describe('PlantsController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('get plant detail by userPlantId', () => {
+    const mockUserPlantId: number = 1;
+
+    it('존재하는 식물 id가 주어지면 성공 response 반환', async () => {
+      jest
+        .spyOn(service, 'getUserPlantDetail')
+        .mockResolvedValueOnce(mockUserPlantDetailData);
+
+      const result = await controller.getPlantDetail({ id: mockUserPlantId });
+
+      expect(result).toEqual(mockUserPlantDetailSuccessResponse);
+    });
   });
 
   describe('get plant information by plantId', () => {

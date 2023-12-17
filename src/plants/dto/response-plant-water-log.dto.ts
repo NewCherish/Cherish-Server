@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ResponseSuccessDto } from 'src/common/dto/response-success.dto';
-import { PLANT_WATER_LOG } from 'src/constants/swagger';
+import { READ_PLANT_WATER_LOG } from 'src/constants/swagger';
 
-const DTO_RESPONSE_DESCRIPTION = PLANT_WATER_LOG.DTO_DESCRIPTION.RESPONSE;
+const DTO_RESPONSE_DESCRIPTION = READ_PLANT_WATER_LOG.DTO_DESCRIPTION.RESPONSE;
 
 export class PlantWaterReviewData {
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.REVIEWS.ID })

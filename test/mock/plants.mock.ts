@@ -1,3 +1,58 @@
+export const mockUserPlantResponse = {
+  nickname: 'test',
+  instagram: null,
+  createdAt: new Date('2023-07-22T08:16:52.538Z'),
+  plantId: 4,
+  waterCycle: 14,
+  loveGauge: 0,
+  plant: {
+    name: '민들레',
+    circleImageURL:
+      'https://cherish-static-dev.s3.ap-northeast-2.amazonaws.com/circleImages/mindlere-circle.png',
+  },
+  Water: [
+    {
+      wateringDate: new Date('2023-07-22T18:16:53.000Z'),
+    },
+  ],
+};
+
+export const mockUserPlantDetailData = {
+  id: 1,
+  nickname: 'test',
+  instagram: null,
+  duration: 22,
+  dDay: -7,
+  plantId: 4,
+  plantName: '민들레',
+  plantImage:
+    'https://cherish-static-dev.s3.ap-northeast-2.amazonaws.com/circleImages/mindlere-circle.png',
+  levelName: '새싹',
+  statusMessage: '갈증나요',
+  statusGauge: 0.5,
+};
+
+export const mockUserPlantDetailSuccessResponse = {
+  statusCode: 200,
+  success: true,
+  message: '식물 상세 조회 성공',
+  data: mockUserPlantDetailData,
+};
+
+export const mockUpdatePlantDetailDto = {
+  phone: '111',
+  nickname: 'test',
+  waterCycle: 33,
+  waterTime: '22:00',
+  instagram: 'instagram-id',
+};
+
+export const mockUpdatePlantDetailSuccessResponse = {
+  statusCode: 200,
+  success: true,
+  message: '식물 카드 업데이트 성공',
+};
+
 export const mockPlantsInformationResponse = {
   success: true,
   statusCode: 200,

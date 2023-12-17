@@ -19,6 +19,9 @@ export const RESPONSE_MESSAGE: {
   REISSUED_TOKEN_SUCCESS: '토큰 재발급 성공',
 
   // plants
+  READ_PLANT_DETAIL_SUCCESS: '식물 상세 조회 성공',
+  UPDATE_PLANT_DETAIL_SUCCESS: '식물 카드 업데이트 성공',
   READ_PLANT_INFORMATION_SUCCESS: '식물 단계 조회 성공',
   READ_PLANT_WATER_LOG_SUCCESS: '식물 물주기 기록 조회 성공',
+  READ_PLANTS_SUCCESS: '메인 식물 리스트 조회 성공',
 };
