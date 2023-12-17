@@ -39,6 +39,20 @@ export const mockUserPlantDetailSuccessResponse = {
   data: mockUserPlantDetailData,
 };
 
+export const mockUpdatePlantDetailDto = {
+  phone: '111',
+  nickname: 'test',
+  waterCycle: 33,
+  waterTime: '22:00',
+  instagram: 'instagram-id',
+};
+
+export const mockUpdatePlantDetailSuccessResponse = {
+  statusCode: 200,
+  success: true,
+  message: '식물 카드 업데이트 성공',
+};
+
 export const mockPlantsInformationResponse = {
   success: true,
   statusCode: 200,

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Put } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
@@ -15,6 +15,7 @@ import { CommonParamsDto } from 'src/common/dto/common-params.dto';
 import {
   ERROR_DESCRIPTION,
   READ_PLANT_DETAIL,
+  UPDATE_PLANT_DETAIL,
   READ_PLANT_INFORMATION,
   READ_PLANT_WATER_LOG,
   READ_PLANTS,
@@ -24,6 +25,9 @@ import { RESPONSE_MESSAGE } from 'src/common/objects';
 import { ResponsePlantWaterLogDto } from './dto/response-plant-water-log.dto';
 import { ResponsePlantDetailDto } from './dto/response-plant-detail.dto';
 import { ResponseUserPlantsDto } from './dto/response-plants.dto';
+import { UpdatePlantDetailDto } from './dto/update-plant-detail.dto';
+import { ResponseSuccessDto } from 'src/common/dto/response-success.dto';
+
 @Controller('plants')
 @ApiTags('Plants')
 @ApiInternalServerErrorResponse({
@@ -51,6 +55,28 @@ export class PlantsController {
       HttpStatus.OK,
       RESPONSE_MESSAGE.READ_PLANT_DETAIL_SUCCESS,
       data,
+    );
+  }
+
+  @Put(':id')
+  @ApiOperation(UPDATE_PLANT_DETAIL.API_OPERATION)
+  @ApiParam(UPDATE_PLANT_DETAIL.API_PARAM)
+  @ApiOkResponse({ type: ResponseSuccessDto })
+  @ApiBadRequestResponse({
+    description: UPDATE_PLANT_DETAIL.ERROR_DESCRIPTION.BAD_REQUEST,
+  })
+  @ApiNotFoundResponse({
+    description: UPDATE_PLANT_DETAIL.ERROR_DESCRIPTION.NOT_FOUND,
+  })
+  async updatePlantDetail(
+    @Param() { id }: CommonParamsDto,
+    @Body() updatePlantDetailDto: UpdatePlantDetailDto,
+  ): Promise<ResponseSuccessDto> {
+    await this.plantsService.updateUserPlantDetail(id, updatePlantDetailDto);
+
+    return wrapSuccess(
+      HttpStatus.OK,
+      RESPONSE_MESSAGE.UPDATE_PLANT_DETAIL_SUCCESS,
     );
   }
 
