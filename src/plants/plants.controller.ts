@@ -17,7 +17,7 @@ import {
   READ_PLANT_DETAIL,
   READ_PLANT_INFORMATION,
   READ_PLANT_WATER_LOG,
-  READ_PLANTS
+  READ_PLANTS,
 } from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
@@ -97,14 +97,14 @@ export class PlantsController {
 
   @Get()
   @ApiOperation(READ_PLANTS.API_OPERATION)
-  @ApiOkResponse( {type: ResponseUserPlantsDto})
+  @ApiOkResponse({ type: ResponseUserPlantsDto })
   async getUserPlants(): Promise<ResponseUserPlantsDto> {
     const data = await this.plantsService.getUserPlants(1);
 
     return wrapSuccess(
-      HttpStatus.OK, 
-      RESPONSE_MESSAGE.READ_PLANTS_SUCCESS, 
-      data
+      HttpStatus.OK,
+      RESPONSE_MESSAGE.READ_PLANTS_SUCCESS,
+      data,
     );
   }
 }

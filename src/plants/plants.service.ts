@@ -166,7 +166,7 @@ export class PlantsService {
 
   async getUserPlants(userId: number): Promise<ResponseUserPlantsData> {
     const userPlants = await this.prisma.userPlant.findMany({
-      where: {userId, isDeleted: false},
+      where: { userId, isDeleted: false },
       select: {
         id: true,
         plantId: true,
@@ -189,14 +189,14 @@ export class PlantsService {
           },
           take: 1,
         },
-      }
+      },
     });
 
     if (!userPlants) {
       const data = {
         userPlants: [],
-        userPlantsCount: 0
-      }
+        userPlantsCount: 0,
+      };
       return data;
     }
 
@@ -206,19 +206,28 @@ export class PlantsService {
           userPlant.Water[0].wateringDate,
           userPlant.waterCycle,
         );
-    
-        const dDay: number = utilDay.calculateDday(new Date(), nextWateringDate);
 
-        const description = utilPlants.makeRandomDescription(dDay, userPlant.waterCount);
+        const dDay: number = utilDay.calculateDday(
+          new Date(),
+          nextWateringDate,
+        );
 
-        const levelName = await this.getPlantLevelNameByLoveGauge(userPlant.plantId, userPlant.loveGauge);
+        const description = utilPlants.makeRandomDescription(
+          dDay,
+          userPlant.waterCount,
+        );
+
+        const levelName = await this.getPlantLevelNameByLoveGauge(
+          userPlant.plantId,
+          userPlant.loveGauge,
+        );
 
         const mainImage = await this.prisma.plantLevel.findFirst({
           where: {
             plantId: userPlant.plantId,
-            level: utilPlants.calculatePlantLevel(userPlant.loveGauge)
+            level: utilPlants.calculatePlantLevel(userPlant.loveGauge),
           },
-          select: {imageURL: true}
+          select: { imageURL: true },
         });
 
         const data = {
@@ -233,13 +242,13 @@ export class PlantsService {
           loveGauge: userPlant.loveGauge,
         };
         return data;
-      })
+      }),
     );
 
     const data = {
       userPlants: processedUserPlants,
       userPlantsCount: processedUserPlants.length,
-    }
+    };
 
     return data;
   }

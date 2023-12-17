@@ -3,7 +3,7 @@ import {
   READ_PLANT_DETAIL,
   READ_PLANT_INFORMATION,
   READ_PLANT_WATER_LOG,
-  READ_PLANTS
+  READ_PLANTS,
 } from './plants';
 
 export const ERROR_DESCRIPTION = {

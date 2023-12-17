@@ -105,10 +105,8 @@ export const READ_PLANTS = {
         LOVE_GAUGE: '식물 애정도',
         // IS_WATERED: '오늘 식물에게 물을 준 적 있는지 여부'
       },
-      PLANT_COUNT: '식물 총 갯수'
+      PLANT_COUNT: '식물 총 갯수',
     },
   },
-  ERROR_DESCRIPTION: {
-
-  }
+  ERROR_DESCRIPTION: {},
 };
