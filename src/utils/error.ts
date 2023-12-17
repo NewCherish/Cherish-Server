@@ -2,6 +2,18 @@ import { HttpStatus } from '@nestjs/common';
 import { CustomException } from '../exceptions';
 import { RESPONSE_MESSAGE } from '../common/objects';
 
+export const getStatusByPrismaExceptionCode = (code: string): number => {
+  let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
+
+  switch (code) {
+    case 'P2025':
+      status = HttpStatus.NOT_FOUND;
+      break;
+  }
+
+  return status;
+};
+
 export const customError = (statusCode: number, message: string) => {
   return new CustomException(statusCode, message);
 };
