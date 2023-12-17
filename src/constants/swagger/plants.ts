@@ -21,7 +21,7 @@ export const READ_PLANT_DETAIL = {
       PLANT_NAME: '식물 이름',
       LEVEL_NAME: '식물 레벨 이름',
       STATUS_MESSAGE: '식물 상태 메시지',
-      STATUS_GAGUE: '식물 상태 게이지',
+      STATUS_GAUGE: '식물 상태 게이지',
     },
   },
   ERROR_DESCRIPTION: {
@@ -111,4 +111,29 @@ export const READ_PLANT_WATER_LOG = {
   ERROR_DESCRIPTION: {
     BAD_REQUEST: 'Bad Request - 요청 id 가 없거나, number가 아닌 경우 등',
   },
+};
+
+export const READ_PLANTS = {
+  API_OPERATION: {
+    summary: '메인 식물 리스트 조회 API',
+    description: '유저의 전체 식물 리스트를 조회합니다.',
+  },
+  DTO_DESCRIPTION: {
+    RESPONSE: {
+      PLANTS: {
+        ID: 'userPlant id',
+        PLANT_TYPE: '식물 종류 - rose, sun, stuki, min, blue, ojya',
+        D_DAY: '물주기까지 남은 일수',
+        NICKNAME: '식물 닉네임',
+        DESCRIPTION: '식물 묘사 - ex) 바짝바짝 목이 마른',
+        LEVEL_NAME: '식물 레벨 이름',
+        CIRCLE_IMAGE: '식물 원형 이미지 url',
+        MAIN_IMAGE: '식물 레벨별 메인 이미지 url',
+        LOVE_GAUGE: '식물 애정도',
+        // IS_WATERED: '오늘 식물에게 물을 준 적 있는지 여부'
+      },
+      PLANT_COUNT: '식물 총 갯수',
+    },
+  },
+  ERROR_DESCRIPTION: {},
 };

@@ -38,8 +38,8 @@ export class ResponsePlantDetailData {
   @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.STATUS_MESSAGE })
   statusMessage: string;
 
-  @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.STATUS_GAGUE })
-  statusGague: number;
+  @ApiProperty({ description: DTO_RESPONSE_DESCRIPTION.STATUS_GAUGE })
+  statusGauge: number;
 }
 
 export class ResponsePlantDetailDto extends ResponseSuccessDto {

@@ -62,7 +62,7 @@ describe('PlantsService', () => {
         mockUserPlantResponse as any,
       );
       jest
-        .spyOn(service, 'getPlantLevelNameByLoveGague')
+        .spyOn(service, 'getPlantLevelNameByLoveGauge')
         .mockResolvedValueOnce({ levelName: '새싹' });
 
       const result = await service.getUserPlantDetail(mockUserPlantId);
@@ -73,12 +73,12 @@ describe('PlantsService', () => {
     it('존재하지 않는 userPlantId 가 주어지면 Not Found 에러를 반환한다.', async () => {
       const mockFindUnique =
         userPlantPrisma.findUnique.mockResolvedValueOnce(null);
-      jest.spyOn(service, 'getPlantLevelNameByLoveGague').mockImplementation();
+      jest.spyOn(service, 'getPlantLevelNameByLoveGauge').mockImplementation();
 
       await expect(
         service.getUserPlantDetail(mockUserPlantId),
       ).rejects.toThrowError(notFound());
-      expect(service.getPlantLevelNameByLoveGague).not.toHaveBeenCalled();
+      expect(service.getPlantLevelNameByLoveGauge).not.toHaveBeenCalled();
     });
   });
 

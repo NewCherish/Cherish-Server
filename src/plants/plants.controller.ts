@@ -18,11 +18,13 @@ import {
   UPDATE_PLANT_DETAIL,
   READ_PLANT_INFORMATION,
   READ_PLANT_WATER_LOG,
+  READ_PLANTS,
 } from 'src/constants/swagger';
 import { wrapSuccess } from 'src/utils/success';
 import { RESPONSE_MESSAGE } from 'src/common/objects';
 import { ResponsePlantWaterLogDto } from './dto/response-plant-water-log.dto';
 import { ResponsePlantDetailDto } from './dto/response-plant-detail.dto';
+import { ResponseUserPlantsDto } from './dto/response-plants.dto';
 import { UpdatePlantDetailDto } from './dto/update-plant-detail.dto';
 import { ResponseSuccessDto } from 'src/common/dto/response-success.dto';
 
@@ -115,6 +117,19 @@ export class PlantsController {
     return wrapSuccess(
       HttpStatus.OK,
       RESPONSE_MESSAGE.READ_PLANT_WATER_LOG_SUCCESS,
+      data,
+    );
+  }
+
+  @Get()
+  @ApiOperation(READ_PLANTS.API_OPERATION)
+  @ApiOkResponse({ type: ResponseUserPlantsDto })
+  async getUserPlants(): Promise<ResponseUserPlantsDto> {
+    const data = await this.plantsService.getUserPlants(1);
+
+    return wrapSuccess(
+      HttpStatus.OK,
+      RESPONSE_MESSAGE.READ_PLANTS_SUCCESS,
       data,
     );
   }

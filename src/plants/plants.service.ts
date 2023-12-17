@@ -10,6 +10,7 @@ import * as utilDay from 'src/utils/day';
 import { ResponsePlantDetailData } from './dto/response-plant-detail.dto';
 import { ResponsePlantInformationData } from './dto/response-plant-information.dto';
 import { ResponsePlantWaterLogData } from './dto/response-plant-water-log.dto';
+import { ResponseUserPlantsData } from './dto/response-plants.dto';
 import { UpdatePlantDetailDto } from './dto/update-plant-detail.dto';
 
 @Injectable()
@@ -60,7 +61,7 @@ export class PlantsService {
     const { wateringDate } = Water[0];
     const { name: plantName, circleImageURL: plantImage } = plant;
 
-    const { levelName } = await this.getPlantLevelNameByLoveGague(
+    const { levelName } = await this.getPlantLevelNameByLoveGauge(
       plantId,
       loveGauge,
     );
@@ -73,7 +74,7 @@ export class PlantsService {
     const dDay: number = utilDay.calculateDday(new Date(), nextWateringDate);
     const duration: number = -utilDay.calculateDday(new Date(), createdAt);
 
-    const { statusMessage, statusGague } = utilPlants.calculatePlantStatus(
+    const { statusMessage, statusGauge } = utilPlants.calculatePlantStatus(
       plantId,
       -dDay,
     );
@@ -89,7 +90,7 @@ export class PlantsService {
       plantImage,
       levelName,
       statusMessage,
-      statusGague,
+      statusGauge,
     };
   }
 
@@ -109,9 +110,9 @@ export class PlantsService {
 
   async getPlantLevelNameByLoveGague(
     plantId: number,
-    loveGague: number,
+    loveGauge: number,
   ): Promise<Pick<PlantLevel, 'levelName'>> {
-    const level = utilPlants.calculatePlantLevel(loveGague);
+    const level = utilPlants.calculatePlantLevel(loveGauge);
 
     const plantLevel = await this.prisma.plantLevel.findUnique({
       where: { id: plantId, level, isDeleted: false },
@@ -176,5 +177,94 @@ export class PlantsService {
     );
 
     return { reviews: result };
+  }
+
+  async getUserPlants(userId: number): Promise<ResponseUserPlantsData> {
+    const userPlants = await this.prisma.userPlant.findMany({
+      where: { userId, isDeleted: false },
+      select: {
+        id: true,
+        plantId: true,
+        nickname: true,
+        loveGauge: true,
+        waterCycle: true,
+        waterCount: true,
+        plant: {
+          select: {
+            name: true,
+            circleImageURL: true,
+          },
+        },
+        Water: {
+          select: {
+            wateringDate: true,
+          },
+          orderBy: {
+            wateringDate: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    if (!userPlants) {
+      const data = {
+        userPlants: [],
+        userPlantsCount: 0,
+      };
+      return data;
+    }
+
+    const processedUserPlants = await Promise.all(
+      userPlants.map(async (userPlant) => {
+        const nextWateringDate: Date = utilPlants.calculateNextWateringDate(
+          userPlant.Water[0].wateringDate,
+          userPlant.waterCycle,
+        );
+
+        const dDay: number = utilDay.calculateDday(
+          new Date(),
+          nextWateringDate,
+        );
+
+        const description = utilPlants.makeRandomDescription(
+          dDay,
+          userPlant.waterCount,
+        );
+
+        const levelName = await this.getPlantLevelNameByLoveGauge(
+          userPlant.plantId,
+          userPlant.loveGauge,
+        );
+
+        const mainImage = await this.prisma.plantLevel.findFirst({
+          where: {
+            plantId: userPlant.plantId,
+            level: utilPlants.calculatePlantLevel(userPlant.loveGauge),
+          },
+          select: { imageURL: true },
+        });
+
+        const data = {
+          id: userPlant.id,
+          plantType: userPlant.plant.name,
+          dDay,
+          nickname: userPlant.nickname,
+          description,
+          levelName: levelName.levelName,
+          circleImage: userPlant.plant.circleImageURL,
+          mainImage: mainImage.imageURL,
+          loveGauge: userPlant.loveGauge,
+        };
+        return data;
+      }),
+    );
+
+    const data = {
+      userPlants: processedUserPlants,
+      userPlantsCount: processedUserPlants.length,
+    };
+
+    return data;
   }
 }
