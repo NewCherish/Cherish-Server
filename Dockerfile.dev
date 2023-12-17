@@ -31,4 +31,4 @@ EXPOSE 8081
 ENV NODE_ENV=development
 
 # start
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
